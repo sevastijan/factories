@@ -1,11 +1,12 @@
 package pl.kurs.app;
 
-import pl.kurs.factory.ShapeFactory;
+import pl.kurs.factories.ShapeFactory;
 import pl.kurs.models.Circle;
 import pl.kurs.models.IShape;
 import pl.kurs.models.Rectangle;
 import pl.kurs.models.Square;
-import pl.kurs.service.ShapeService;
+import pl.kurs.services.IShapeService;
+import pl.kurs.services.ShapeService;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +15,7 @@ import java.util.List;
 public class Application {
     public static void main(String[] args) throws IOException {
         ShapeFactory shapeFactory = ShapeFactory.getInstance();
-        ShapeService shapeService = new ShapeService();
+        IShapeService shapeService = new ShapeService();
 //        Square sq = new Square(10);
 //        Square sq1 = shapeFactory.createSquare(10);
 //        Square sq2 = shapeFactory.createSquare(10);
