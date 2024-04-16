@@ -1,15 +1,19 @@
 package pl.kurs.app;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import pl.kurs.factories.ShapeFactory;
-import pl.kurs.models.Circle;
-import pl.kurs.models.IShape;
-import pl.kurs.models.Rectangle;
-import pl.kurs.models.Square;
+import pl.kurs.models.*;
 import pl.kurs.services.IShapeService;
 import pl.kurs.services.ShapeService;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Application {
@@ -24,10 +28,11 @@ public class Application {
 //        System.out.println("sq2 = " + sq2);
 //        System.out.println(sq1 == sq2);
 
-        List<IShape> shapes = new ArrayList<>();
-        shapes.add(shapeFactory.createSquare(10));
-        shapes.add(shapeFactory.createCircle(2));
-        shapes.add(shapeFactory.createRectangle(10, 650));
+        List<IShape> shapes = List.of(
+                shapeFactory.createSquare(10),
+                shapeFactory.createCircle(2),
+                shapeFactory.createRectangle(10, 650)
+        );
 
         shapeService.exportShapesToJson(shapes, "src/main/resources/shapes.json");
 

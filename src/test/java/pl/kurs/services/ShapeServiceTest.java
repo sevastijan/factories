@@ -13,7 +13,6 @@ import pl.kurs.models.Circle;
 import pl.kurs.models.IShape;
 import pl.kurs.models.Rectangle;
 import pl.kurs.models.Square;
-import pl.kurs.util.ObjectMapperHolder;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,12 +23,6 @@ public class ShapeServiceTest {
     private List<IShape> shapesList;
     private ShapeService shapeService;
     private ShapeFactory shapeFactory;
-
-    @Mock
-    private ObjectMapper objectMapperMock;
-
-    @Mock
-    private IShapeService shapeServiceMock;
 
     @Before
     public void init() {
@@ -85,18 +78,13 @@ public class ShapeServiceTest {
 
     @Test
     public void whenImportShapesFromJsonListShouldBeEqualAsExpected() throws IOException {
-        Mockito.when(objectMapperMock.readValue(new File("src/main/resources/shapes.json"), List.class)).thenReturn(shapesList);
-
-        List<IShape> importedShapes = shapeService.importShapesFromJson("src/main/resources/shapes.json");
+        List<IShape> importedShapes = shapeService.importShapesFromJson("src/main/resources/newShapes.json");
 
         Assert.assertEquals(importedShapes, shapesList);
     }
 
     @Test
     public void whenFileDoesNotExistThenThrow() throws IOException {
-        Mockito.when(objectMapperMock.readValue(new File("src/main/resources/nonexistent_file.json"), List.class))
-                .thenThrow(new IOException("File not found"));
-
         Assert.assertThrows(IOException.class, () -> {
             shapeService.importShapesFromJson("src/main/resources/notFoundFile.json");
         });

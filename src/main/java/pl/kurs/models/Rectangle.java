@@ -1,10 +1,17 @@
 package pl.kurs.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
+import java.util.Objects;
+
+@JsonTypeName("rectangle")
 public class Rectangle implements IShape {
+    @JsonProperty("width")
     private double width;
+
+    @JsonProperty("height")
     private double height;
 
     private Rectangle(double a, double b) {
@@ -12,7 +19,8 @@ public class Rectangle implements IShape {
         this.height = b;
     }
 
-    public static Rectangle create(double a, double b) {
+    @JsonCreator
+    public static Rectangle create(@JsonProperty("width") double a, @JsonProperty("height") double b) {
         return new Rectangle(a, b);
     }
 
@@ -40,5 +48,18 @@ public class Rectangle implements IShape {
                 "a=" + width +
                 ", b=" + height +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rectangle rectangle = (Rectangle) o;
+        return Double.compare(rectangle.width, width) == 0 && Double.compare(rectangle.height, height) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(width, height);
     }
 }

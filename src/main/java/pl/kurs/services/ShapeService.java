@@ -3,12 +3,13 @@ package pl.kurs.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import pl.kurs.models.IShape;
-import pl.kurs.util.ObjectMapperHolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+
 
 public class ShapeService implements IShapeService {
     public ShapeService() {}
@@ -30,13 +31,15 @@ public class ShapeService implements IShapeService {
 
     @Override
     public void exportShapesToJson(List<IShape> shapes, String filePath) throws IOException {
-        ObjectMapper objectMapper = ObjectMapperHolder.INSTANCE.getObjectMapper();
-        objectMapper.writeValue(new File(filePath), shapes);
+        ObjectMapper objectMapper = new ObjectMapper();
+        IShape[] shapesToJson = shapes.toArray(IShape[]::new);
+
+        objectMapper.writeValue(new File(filePath), shapesToJson);
     }
 
     @Override
     public List<IShape> importShapesFromJson(String filePath) throws IOException {
-        ObjectMapper objectMapper = ObjectMapperHolder.INSTANCE.getObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         return objectMapper.readValue(new File(filePath), new TypeReference<>() {
         });
